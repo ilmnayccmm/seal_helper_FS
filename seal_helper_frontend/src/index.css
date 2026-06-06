@@ -1,0 +1,44 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  color: #4366A7FF;
+  -webkit-text-stroke-color: #9BCCE2FF;
+  -webkit-text-stroke: 1px #9BCCE2FF;
+}
+
+#root {
+  /* 1. Control the width */
+  /*width: 100%;*/
+  /*max-width: 1400px; !* Adjust this number to choose how 'squashed' it looks *!*/
+
+  /* 2. Center the container */
+  /*margin: 0 auto;*/
+
+  /* 3. Add internal padding so content doesn't hit the edges on mobile */
+  /*padding: 0 20px;*/
+  /*box-sizing: border-box;*/
+
+  /* Keep your existing styles */
+  min-height: 100vh;
+  /*background-color: #ffffff;*/
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color: #4366A7FF;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

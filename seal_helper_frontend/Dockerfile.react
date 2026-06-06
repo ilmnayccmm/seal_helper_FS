@@ -1,0 +1,14 @@
+# Change this line:
+FROM node:20-alpine
+
+WORKDIR /app/seal_helper_frontend
+
+COPY ./seal_helper_frontend/package.json ./seal_helper_frontend/package-lock.json ./
+
+RUN npm install
+
+COPY ./seal_helper_frontend .
+
+EXPOSE 5173
+
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]

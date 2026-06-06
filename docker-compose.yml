@@ -1,0 +1,53 @@
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: postgres_db
+    environment:
+      POSTGRES_DB: seal_helper_database
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 123456789qwertyuiop
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata15:/var/lib/postgresql/data   # <--- Change this line
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  django:
+    build:
+      context: .
+      dockerfile: Dockerfile.django
+    container_name: django_app
+    command: sh -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_NAME: seal_helper_database
+      DATABASE_USER: admin
+      DATABASE_PASSWORD: 123456789qwertyuiop
+      DATABASE_HOST: db
+      DATABASE_PORT: 5432
+    depends_on:
+      db:
+        condition: service_healthy
+
+  react:
+    build:
+      context: .
+      dockerfile: seal_helper_frontend/Dockerfile.react
+    container_name: react_app
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./seal_helper_frontend:/app/seal_helper_frontend
+      - /app/seal_helper_frontend/node_modules
+    depends_on:
+      - django
+
+volumes:
+  pgdata15:
